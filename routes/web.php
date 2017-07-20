@@ -14,3 +14,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/convert', function () {
+    return view('convertInt');
+})->name('ConvertInteger');
+
+Route::post('/convert/search', 'ConversionController@index');
