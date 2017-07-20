@@ -20,3 +20,5 @@ Route::get('/convert', function () {
 })->name('ConvertInteger');
 
 Route::post('/convert/search', 'ConversionController@index');
+Route::get('/convert/recent', 'ConversionController@showRecent');
+Route::get('/convert/top', 'ConversionController@showTop');

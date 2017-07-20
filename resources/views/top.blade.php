@@ -65,28 +65,18 @@
         </style>
     </head>
     <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @if (Auth::check())
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ url('/login') }}">Login</a>
-                        <a href="{{ url('/register') }}">Register</a>
-                    @endif
-                </div>
-            @endif
+
 
             <div class="content">
                 <div class="title m-b-md">
-                    Converter
+                    Top 10 Roman Numeral's
                 </div>
+                @foreach ($Record as $topRecord)
+                  <h3>Numeral : {{$topRecord->RomanNumeral}}.  </h3>
+                  <p><mark>Times Converted: {{$topRecord->TimesConverted}}</mark></p>
 
-                <div class="links">
-                    <a href="/convert">Convert</a>
-                    <a href="/convert/recent">Recent Conversions</a>
-                    <a href="/convert/top">Top 10 Numerals</a>
-                </div>
+                @endforeach
+
             </div>
         </div>
     </body>
