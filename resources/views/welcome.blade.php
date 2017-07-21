@@ -87,6 +87,9 @@
                     <a href="/convert/recent">Recent Conversions</a>
                     <a href="/convert/top">Top 10 Numerals</a>
                 </div>
+                <hr />
+                <h3>Using the Converter:</h3>
+                <P>1. Click on the Convert button above and enter a number between 1 and 3999 to convert it into a Roman Numeral</P>
             </div>
         </div>
     </body>

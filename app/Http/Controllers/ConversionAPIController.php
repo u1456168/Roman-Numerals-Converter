@@ -3,14 +3,35 @@
 namespace App\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 use App\record;
-class ConversionController extends Controller
+use League\Fractal;
+use League\Fractal\Manager;
+use App\Transformers\recordTransformer;
+use App\Transformers\top10Transformer;
+use App\Transformers\recentTransformer;
+use League\Fractal\Resource\Collection;
+class ConversionAPIController extends Controller
 {
 
+    private $fractal;
+    private $recordTransformer;
+    private $top10Transformer;
+    private $recentTransformer;
+
+    function __construct(Manager $fractal, recordTransformer $recordTransformer, top10Transformer $top10Transformer , recentTransformer $recentTransformer)
+    {
+      $this->fractal = $fractal;
+      $this->recordTransformer = $recordTransformer;
+      $this->top10Transformer = $top10Transformer;
+      $this->recentTransformer= $recentTransformer;
+    }
   //Advanced Search.
-  public function index(Request $request) {
+  public function index($SearchValue) {
       // Gets the search Value , sorts it into thousands , hundreds , tens and ones.
-      $SearchVal = $request->get('searchValue');
+      $SearchVal = $SearchValue;
+      //var_dump($SearchVal);
+
       $sum1 = $SearchVal / 1000 ;
       $thousand = intval($sum1);
       $sum2 = ($SearchVal - ($thousand * 1000)) / 100;
@@ -41,15 +62,25 @@ class ConversionController extends Controller
           $Record->LastConverted = Carbon::now();
           $Record->save();
 
+
+          $Record = record::where('RomanNumeral','=', $RomanNum)->get();
+
+
+
         }
         // If the record doesnt exist , create a new record.
         else {
           // Store record in DB
-          $Record = new record;
+         $Record = new record;
           $Record->RomanNumeral = (string)$RomanNum;
           $Record->TimesConverted = 1;
           $Record->LastConverted = Carbon::now();
           $Record->save();
+          $Record = record::where('RomanNumeral','=', $RomanNum)->get();
+
+
+
+
 
         }
 
@@ -58,8 +89,14 @@ class ConversionController extends Controller
         $RomanNum = "Please enter a number below 4000";
       }
 
+      $Record = new Collection($Record, $this->recordTransformer);
 
-        return view('result' , compact('SearchVal','RomanNum'));
+
+      $Record = $this->fractal->createData($Record);
+
+      return $Record->toArray();
+
+
 
 
 
@@ -67,7 +104,9 @@ class ConversionController extends Controller
       }
       public function showRecent(Request $request) {
         $Record= record::orderBy('LastConverted','desc')->take(10)->get();
-        return view('recent' , compact('Record'));
+        $Record = new Collection($Record, $this->recentTransformer);
+        $Record = $this->fractal->createData($Record);
+        return $Record->toArray();
 
 
 
@@ -75,7 +114,9 @@ class ConversionController extends Controller
       }
       public function showTop(Request $request) {
         $Record= record::orderBy('TimesConverted','desc')->take(10)->get();
-        return view('top' , compact('Record'));
+        $Record = new Collection($Record, $this->top10Transformer);
+        $Record = $this->fractal->createData($Record);
+        return $Record->toArray();
 
 
 

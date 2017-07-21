@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
-
+use App\record;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,3 +16,7 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/convert/{SearchValue}', 'ConversionAPIController@index');
+Route::get('/top', 'ConversionAPIController@showTop');
+Route::get('/recent', 'ConversionAPIController@showRecent');
