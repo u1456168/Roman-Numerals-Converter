@@ -46,7 +46,7 @@ class ConversionAPIController extends Controller
       $RomH  = array("","C","CC","CCC","CD","D","DC","DCC","DCCC","CM");
       $RomT  = array("","X","XX","XXX","XL","L","LX","LXX","LXXX","XC");
       $RomO  = array("","I","II","III","IV","V","VI","VII","VIII","IX");
-      if ($thousand < 4) {
+      if ($thousand < 4 && $SearchVal > 0) {
 
         $RomanNum = $RomTH[$thousand]."".$RomH[$hundred]."".$RomT[$tens]."".$RomO[$ones];
 
@@ -85,8 +85,13 @@ class ConversionAPIController extends Controller
         }
 
       }
+      elseif ($SearchVal < 1) {
+        $RomanNum = "Please enter a number above 0";
+        $Record = record::where('RomanNumeral','=', ' ')->get();
+      }
       else {
         $RomanNum = "Please enter a number below 4000";
+        $Record = record::where('RomanNumeral','=', ' ')->get();
       }
       //Uses Fractal to transform the data
       $Record = new Collection($Record, $this->recordTransformer);
