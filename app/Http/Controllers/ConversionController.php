@@ -25,7 +25,7 @@ class ConversionController extends Controller
       $RomH  = array("","C","CC","CCC","CD","D","DC","DCC","DCCC","CM");
       $RomT  = array("","X","XX","XXX","XL","L","LX","LXX","LXXX","XC");
       $RomO  = array("","I","II","III","IV","V","VI","VII","VIII","IX");
-      if ($thousand < 4) {
+      if ($thousand < 4 && $SearchVal > 0) {
 
         $RomanNum = $RomTH[$thousand]."".$RomH[$hundred]."".$RomT[$tens]."".$RomO[$ones];
 
@@ -54,6 +54,9 @@ class ConversionController extends Controller
         }
 
       }
+      elseif ($SearchVal < 1) {
+        $RomanNum = "Please enter a number above 0";
+      }
       else {
         $RomanNum = "Please enter a number below 4000";
       }
@@ -65,6 +68,7 @@ class ConversionController extends Controller
 
 
       }
+      // Get the recent (Last 10) Numerals converted
       public function showRecent(Request $request) {
         $Record= record::orderBy('LastConverted','desc')->take(10)->get();
         return view('recent' , compact('Record'));
@@ -73,6 +77,7 @@ class ConversionController extends Controller
 
 
       }
+      // get the Top 10 Numerals converted
       public function showTop(Request $request) {
         $Record= record::orderBy('TimesConverted','desc')->take(10)->get();
         return view('top' , compact('Record'));

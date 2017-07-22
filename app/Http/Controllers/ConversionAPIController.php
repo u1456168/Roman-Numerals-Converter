@@ -26,7 +26,7 @@ class ConversionAPIController extends Controller
       $this->top10Transformer = $top10Transformer;
       $this->recentTransformer= $recentTransformer;
     }
-  //Advanced Search.
+  //Search.
   public function index($SearchValue) {
       // Gets the search Value , sorts it into thousands , hundreds , tens and ones.
       $SearchVal = $SearchValue;
@@ -88,12 +88,9 @@ class ConversionAPIController extends Controller
       else {
         $RomanNum = "Please enter a number below 4000";
       }
-
+      //Uses Fractal to transform the data
       $Record = new Collection($Record, $this->recordTransformer);
-
-
       $Record = $this->fractal->createData($Record);
-
       return $Record->toArray();
 
 
@@ -103,6 +100,7 @@ class ConversionAPIController extends Controller
 
       }
       public function showRecent(Request $request) {
+        //Uses Fractal to transform the data
         $Record= record::orderBy('LastConverted','desc')->take(10)->get();
         $Record = new Collection($Record, $this->recentTransformer);
         $Record = $this->fractal->createData($Record);
@@ -113,6 +111,7 @@ class ConversionAPIController extends Controller
 
       }
       public function showTop(Request $request) {
+        //Uses Fractal to transform the data
         $Record= record::orderBy('TimesConverted','desc')->take(10)->get();
         $Record = new Collection($Record, $this->top10Transformer);
         $Record = $this->fractal->createData($Record);

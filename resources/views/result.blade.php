@@ -55,6 +55,11 @@
             .title {
                 font-size: 84px;
             }
+            .result {
+                font-size: 84px;
+                font-weight: 400;
+                font-family: 'Roboto', sans-serif;
+            }
 
             .links > a {
                 color: #ffffff;
@@ -86,8 +91,11 @@
 
                 <p>
                   <b>
-                  You Searched for {{$SearchVal}}. The Roman Numeral Conversion is : = {{$RomanNum}}
-                </p></b>
+                  You Searched for {{$SearchVal}}. The Roman Numeral Conversion is : </p></b>
+
+                  <div class="result m-b-md">
+                    {{$RomanNum}}
+                  </div>
 
               </div>
             </div>
