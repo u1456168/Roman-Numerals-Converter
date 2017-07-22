@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>Converter</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
@@ -20,6 +20,13 @@
                 height: 100vh;
                 margin: 0;
             }
+            P {
+              color: #181919;
+              font-weight: 300 !important;
+              font-family: 'Roboto', sans-serif;
+
+            }
+
 
             .full-height {
                 height: 100vh;
@@ -50,18 +57,17 @@
             }
 
             .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 12px;
+                color: #ffffff;
+
+                font-size: 16px;
                 font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
+
             }
 
             .m-b-md {
                 margin-bottom: 30px;
             }
+
         </style>
     </head>
     <body>
